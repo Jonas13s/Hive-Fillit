@@ -3,132 +3,129 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/08 17:26:27 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/09 01:07:41 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdio.h>
+/*
+Read line by line;
+check everyline if it has = 4bytes, and if the charachters are either '.' || '#';
+check if fifth line is newline, and also how many # are there, it has to be 4;
 
-int	symbol_check(char *str, int *row, int *blockcount)
+*/
+
+int	delete_data(char **line, int size)
 {
-	size_t	i;
-
-	i = 0;
-	if (*row == 4)
-	{
-		if (*blockcount != 4)
-		{
-			*blockcount = 0;
-			*row = 0;
-			return (-1);
-		}
-		*blockcount = 0;
-		*row = 0;
-		if (ft_strlen(str) != 0)
-			return (-1);
-		return (1);
-	}
-	++*row;
-	while (str[i] == '#' || str[i] == '.' || i < 4)
-	{
-		if (str[i] == '#')
-			++*blockcount;
-		if (str[i + 1] == '\0' && i == 3)
-			return (1);
-		++i;
-	}
+	while (size-- > 0)
+		ft_strdel(&line[size]);
 	return (-1);
 }
 
-int	touching_block(char **str)
+int	touching_block(char **str, int y, int *connecting)
 {
 	int	x;
-	int	y;
-	int	connecting;
 
+	x = 0;
+	while (x <= 3)
+	{
+		if (str[y][x] == '#')
+		{
+			if (x < 3)
+				if (str[y][x + 1] == '#')
+				*connecting++;
+			if (y < 3)
+				if (str[y + 1][x] == '#')
+					*connecting++;
+		}
+		x++;
+	}
+	if (*connecting == 3 || *connecting == 4)
+		return (1);
+	return (-1);
+}
+
+int	check_symbol(char **str)
+{
+	int	i;
+	int	y;
+	int	blocksize;
+	int	connectedblocks;
+
+	connectedblocks = 0;
+	blocksize = 0;
 	y = 0;
-	connecting = 0;
 	while (y <= 3)
 	{
-		x = 0;
-		while (x <= 3)
+		i = 0;
+		touching_block(str, y, &connectedblocks);
+		while (str[y][i] == '#' || str[y][i] == '.')
 		{
-			if (str[y][x] == '#')
-			{
-				if (x < 3)
-					if (str[y][x + 1] == '#')
-						connecting++;
-				if (y < 3)
-					if (str[y + 1][x] == '#')
-						connecting++;
-			}
-			x++;
+			if (str[y][i] == '#')
+				blocksize ++;
+			i++;
+		}
+		if (i != 4)
+			return (-1);
+		y++;
+	}
+	if (blocksize != 4)
+		return (-1);
+	return (1);
+}
+
+int	error_check(int fd, int tetcount, int *error)
+{
+	char	*block[5];
+	int		y;
+
+	y = 0;
+	while (get_next_line(fd, &block[y]) > 0)
+	{
+		if (y == 4)
+		{
+			if (ft_strlen(block[y]) != 0)
+				*error = -1;
+			delete_data(block, 5);
+			y = -1;
+		}
+		if (y == 3)
+		{
+			if (check_symbol(block) != 1)
+				*error = -1;
+			tetcount++;
 		}
 		y++;
 	}
-	if (connecting == 3 || connecting == 4)
-		return (1);
-	return (-1);
+	if (y != 4 || tetcount > 26)
+		*error = -1;
+	delete_data(block, y + 1);
+	return (1);
 }
 
-void	delete_data(char **line)
+int	error_handling(char *name)
 {
-	int	i;
+	int	fd;
+	int	tetcount;
+	int	error;
 
-	i = 0;
-	while (i <= 4)
-	{
-		ft_strdel(&line[i]);
-		i++;
-	}
-}
-
-int error_check(char *name)
-{
-	char	*line;
-	int		fd;
-	int		errorresult;
-	int		row;
-	int		blockcount;
-	char	*lastblock[5];
-
-	blockcount = 0;
-	row = 0;
+	error = 1;
+	tetcount = 0;
 	fd = open(name, O_RDONLY);
-	errorresult = 1;
-	while (1)
+	if (fd == -1)
 	{
-		ft_strdel(&line);
-		if (get_next_line(fd, &line) <= 0)
-			break ;
-		if (errorresult == 1)
-		{
-			lastblock[row] = ft_strdup(line);
-			if (symbol_check(line, &row, &blockcount) == -1)
-				errorresult = -1;
-			if (row == 4)
-			{
-				if (touching_block(lastblock) == -1)
-					errorresult = -1;
-				delete_data(lastblock);
-			}
-		}
+		write(2, "ERROR : while opening a file", 28);
+		return (-1);
 	}
-	ft_strdel(&line);
-	delete_data(lastblock);
-	if (row != 4 && errorresult == 1)
-		errorresult = -1;
-	return (errorresult);
+	error_check(fd, tetcount, &error);
+	return (error);
 }
-
-
-
-int main(void)
+int	main(void)
 {
-	printf("%d\n", error_check("mapcorrect"));
+	printf("%d\n", error_handling("mapcorrect"));
 	return (0);
 }
