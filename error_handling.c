@@ -6,7 +6,7 @@
 /*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/09 01:07:41 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/09 22:33:33 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ int	delete_data(char **line, int size)
 	return (-1);
 }
 
-int	touching_block(char **str, int y, int *connecting)
+int	touching_block(char **str, int y)
 {
 	int	x;
+	int	connecting;
 
+	connecting = 0;
 	x = 0;
 	while (x <= 3)
 	{
@@ -37,16 +39,14 @@ int	touching_block(char **str, int y, int *connecting)
 		{
 			if (x < 3)
 				if (str[y][x + 1] == '#')
-				*connecting++;
+					connecting++;
 			if (y < 3)
 				if (str[y + 1][x] == '#')
-					*connecting++;
+					connecting++;
 		}
 		x++;
 	}
-	if (*connecting == 3 || *connecting == 4)
-		return (1);
-	return (-1);
+	return (connecting);
 }
 
 int	check_symbol(char **str)
@@ -58,22 +58,18 @@ int	check_symbol(char **str)
 
 	connectedblocks = 0;
 	blocksize = 0;
-	y = 0;
-	while (y <= 3)
+	y = -1;
+	while (y++ < 3)
 	{
-		i = 0;
-		touching_block(str, y, &connectedblocks);
-		while (str[y][i] == '#' || str[y][i] == '.')
-		{
+		i = -1;
+		connectedblocks += touching_block(str, y);
+		while (str[y][++i] == '#' || str[y][i] == '.' || str[y][i] != '\0')
 			if (str[y][i] == '#')
 				blocksize ++;
-			i++;
-		}
 		if (i != 4)
 			return (-1);
-		y++;
 	}
-	if (blocksize != 4)
+	if (blocksize != 4 || (connectedblocks != 3 && connectedblocks != 4))
 		return (-1);
 	return (1);
 }
@@ -124,8 +120,21 @@ int	error_handling(char *name)
 	error_check(fd, tetcount, &error);
 	return (error);
 }
-int	main(void)
+int	main(int args, char **argv)
 {
-	printf("%d\n", error_handling("mapcorrect"));
+	int i = 0;
+	char *name = "correct_file/valid_";
+	name = ft_strjoin(name, "0");
+	char *c;
+	printf("%s\n", name);
+	while (i <= 25)
+	{
+		printf("%d %d\n",i, error_handling(name));
+		name = ft_strdup("correct_file/valid_");
+		c = ft_itoa(i);
+		name = ft_strjoin(name, (char *)c);
+		printf("%s\n", name);
+		i++;
+	}
 	return (0);
 }
