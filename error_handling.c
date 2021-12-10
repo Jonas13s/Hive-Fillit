@@ -6,7 +6,7 @@
 /*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/09 22:33:33 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/10 18:37:19 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ check if fifth line is newline, and also how many # are there, it has to be 4;
 
 */
 
-int	delete_data(char **line, int size)
+static int	delete_data(char **line, int size)
 {
 	while (size-- > 0)
 		ft_strdel(&line[size]);
 	return (-1);
 }
 
-int	touching_block(char **str, int y)
+static int	touching_block(char **str, int y)
 {
 	int	x;
 	int	connecting;
@@ -49,7 +49,7 @@ int	touching_block(char **str, int y)
 	return (connecting);
 }
 
-int	check_symbol(char **str)
+static int	check_symbol(char **str)
 {
 	int	i;
 	int	y;
@@ -74,7 +74,7 @@ int	check_symbol(char **str)
 	return (1);
 }
 
-int	error_check(int fd, int tetcount, int *error)
+static int	error_check(int fd, int tetcount, int *error)
 {
 	char	*block[5];
 	int		y;
@@ -99,7 +99,7 @@ int	error_check(int fd, int tetcount, int *error)
 	}
 	if (y != 4 || tetcount > 26)
 		*error = -1;
-	delete_data(block, y + 1);
+	delete_data(block, y);
 	return (1);
 }
 
@@ -114,27 +114,16 @@ int	error_handling(char *name)
 	fd = open(name, O_RDONLY);
 	if (fd == -1)
 	{
+		close(fd);
 		write(2, "ERROR : while opening a file", 28);
 		return (-1);
 	}
 	error_check(fd, tetcount, &error);
-	return (error);
-}
-int	main(int args, char **argv)
-{
-	int i = 0;
-	char *name = "correct_file/valid_";
-	name = ft_strjoin(name, "0");
-	char *c;
-	printf("%s\n", name);
-	while (i <= 25)
+	if (error == -1)
 	{
-		printf("%d %d\n",i, error_handling(name));
-		name = ft_strdup("correct_file/valid_");
-		c = ft_itoa(i);
-		name = ft_strjoin(name, (char *)c);
-		printf("%s\n", name);
-		i++;
+		close(fd);
+		write(2, "ERROR : file is not correct", 27);
+		return (-1);
 	}
-	return (0);
+	return (error);
 }
