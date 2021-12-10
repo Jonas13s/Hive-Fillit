@@ -6,12 +6,11 @@
 /*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/10 18:37:19 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:35:43 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
 /*
 Read line by line;
 check everyline if it has = 4bytes, and if the charachters are either '.' || '#';
@@ -62,12 +61,12 @@ static int	check_symbol(char **str)
 	while (y++ < 3)
 	{
 		i = -1;
-		connectedblocks += touching_block(str, y);
 		while (str[y][++i] == '#' || str[y][i] == '.' || str[y][i] != '\0')
 			if (str[y][i] == '#')
 				blocksize ++;
 		if (i != 4)
 			return (-1);
+		connectedblocks += touching_block(str, y);
 	}
 	if (blocksize != 4 || (connectedblocks != 3 && connectedblocks != 4))
 		return (-1);
@@ -120,10 +119,7 @@ int	error_handling(char *name)
 	}
 	error_check(fd, tetcount, &error);
 	if (error == -1)
-	{
-		close(fd);
-		write(2, "ERROR : file is not correct", 27);
-		return (-1);
-	}
+		write(2, "ERROR : while checking a file", 29);
+	close(fd);
 	return (error);
 }
