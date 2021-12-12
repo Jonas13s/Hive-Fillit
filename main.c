@@ -1,23 +1,28 @@
-#include <stdio.h>
 #include "fillit.h"
+#include <stdio.h>
 
-int	main(int args, char **argv)
+int main(int argc, char **argv)
 {
-	int i = 0;
-	char *name;
-	name = ft_strjoin("error_file/error_", "0");
-	char *c;
-	printf("%s\n", name);
-	while (i <= 25)
+	t_pos 	pos[26];
+	char	map[20][20];
+	int		num;
+	int		square;
+
+	if (error_handling(argv[1]) == -1)
 	{
-		printf("%d %d\n",i, error_handling(name));
-		ft_strdel(&name);
-		c = ft_itoa(i);
-		name = ft_strjoin("error_file/error_", (char *)c);
-		ft_strdel(&c);
-		i++;
+		printf("error\n");
+		return (-1);
 	}
-	ft_strdel(&name);
-	ft_strdel(&c);
+	num = ft_read_tetrim_from_map(pos, argv[1]);
+	ft_fill_map(map);
+	square = ft_smallest_square(num);
+	
+	//printf("%d %d %d\n" , pos[2].coord[0].r, pos[2].coord[1].r, pos[2].coord[2].r);
+	//printf("%d %d %d\n" , pos[2].coord[0].c, pos[2].coord[1].c, pos[2].coord[2].c);
+	while(!change_map(map, pos, 0, square, num))
+	{
+		square++;
+	}
+	ft_print_map(pos, map, square);
 	return (0);
 }
