@@ -1,28 +1,36 @@
-#include "fillit.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/12 05:19:36 by joivanau          #+#    #+#             */
+/*   Updated: 2021/12/12 05:43:13 by joivanau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int main(int argc, char **argv)
+#include "fillit.h"
+
+int	main(int argc, char **argv)
 {
-	t_pos 	pos[26];
-	char	map[20][20];
+	t_pos	pos[26];
+	t_map	*map;
 	int		num;
 	int		square;
 
 	if (error_handling(argv[1]) == -1)
-	{
-		printf("error\n");
 		return (-1);
-	}
 	num = ft_read_tetrim_from_map(pos, argv[1]);
-	ft_fill_map(map);
 	square = ft_smallest_square(num);
-	
-	//printf("%d %d %d\n" , pos[2].coord[0].r, pos[2].coord[1].r, pos[2].coord[2].r);
-	//printf("%d %d %d\n" , pos[2].coord[0].c, pos[2].coord[1].c, pos[2].coord[2].c);
-	while(!change_map(map, pos, 0, square, num))
+	map = ft_fill_map(square);
+	while (!change_map(map, pos, 0, num))
 	{
 		square++;
+		ft_freemap(map);
+		map = ft_fill_map(square);
 	}
-	ft_print_map(pos, map, square);
+	ft_print_map(*map);
+	ft_freemap(map);
 	return (0);
 }

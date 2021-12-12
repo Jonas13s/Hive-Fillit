@@ -6,7 +6,7 @@
 /*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/10 19:35:43 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/12 04:58:25 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int	error_check(int fd, int tetcount, int *error)
 		}
 		y++;
 	}
-	if (y != 4 || tetcount > 26)
+	if ((y != 4 && y != 0) || tetcount > 26)
 		*error = -1;
 	delete_data(block, y);
 	return (1);

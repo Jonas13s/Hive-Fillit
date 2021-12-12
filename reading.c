@@ -1,11 +1,22 @@
-#include "fillit.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reading.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/12 05:25:22 by joivanau          #+#    #+#             */
+/*   Updated: 2021/12/12 05:30:43 by joivanau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void ft_read_coord(char **map, t_pos pos[26], int n)
+#include "fillit.h"
+
+void	ft_read_coord(char **map, t_pos pos[26], int n)
 {
-	int m;
-	int top_r;
-	int top_c;
+	int	m;
+	int	top_r;
+	int	top_c;
 	int	i;
 	int	j;
 
@@ -32,7 +43,7 @@ void ft_read_coord(char **map, t_pos pos[26], int n)
 
 void	ft_free_map(char ***map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 4)
@@ -61,14 +72,21 @@ char	**ft_read_from_file(char *file_name)
 		exit(1);
 	close(fd);
 	return (map);
-} 
+}
 
-int ft_read_tetrim_from_map(t_pos pos[26], char *file_name)
+static void	pos_setup(t_pos pos[26], int num)
+{
+	pos[num].value = 'A' + num;
+	pos[num].x = 0;
+	pos[num].y = 0;
+}
+
+int	ft_read_tetrim_from_map(t_pos pos[26], char *file_name)
 {
 	char	**temp;
-	char 	**map;
+	char	**map;
 	int		i;
-	int 	j;
+	int		j;
 	int		num;
 
 	map = ft_read_from_file(file_name);
@@ -78,12 +96,10 @@ int ft_read_tetrim_from_map(t_pos pos[26], char *file_name)
 	num = 0;
 	while (map[i])
 	{
-	    temp[j++] = map[i++];
+		temp[j++] = map[i++];
 		if (j == 4)
 		{
-			pos[num].value = 'A' + num;
-			pos[num].x = 0;
-			pos[num].y = 0;
+			pos_setup(pos, num);
 			ft_read_coord(temp, pos, num++);
 			ft_free_map(&temp);
 			j = 0;
@@ -92,16 +108,4 @@ int ft_read_tetrim_from_map(t_pos pos[26], char *file_name)
 	free(temp);
 	free(map);
 	return (num);
-}
-
-int ft_smallest_square(int num)
-{
-	int count;
-	int i;
-
-	count = num * 4;
-	i = 3;
-	while (count > i*i)
-		++i;
-	return (i); 
 }
