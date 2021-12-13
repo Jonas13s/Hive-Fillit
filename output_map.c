@@ -6,7 +6,7 @@
 /*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 05:24:30 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/13 12:44:44 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/13 13:19:12 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	ft_delete_tetr(t_map *map, t_pos *pos)
 
 static	int	ft_check_pos(t_map map, t_pos *pos, int i, int j)
 {
-	int	flag;
 	int	m;
 
 	m = 0;
