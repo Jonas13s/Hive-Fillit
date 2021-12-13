@@ -6,7 +6,7 @@
 /*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/12 04:58:25 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/13 11:47:08 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static int	check_symbol(char **str)
 	while (y++ < 3)
 	{
 		i = -1;
-		while (str[y][++i] == '#' || str[y][i] == '.' || str[y][i] != '\0')
+		while (str[y][++i] == '#' || str[y][i] == '.')
 			if (str[y][i] == '#')
 				blocksize ++;
-		if (i != 4)
+		if (str[y][i] != '\0')
 			return (-1);
 		connectedblocks += touching_block(str, y);
 	}
