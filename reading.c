@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   reading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
+/*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 05:25:22 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/12 05:30:43 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/13 13:25:25 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	ft_read_coord(char **map, t_pos pos[26], int n)
+static void	ft_read_coord(char **map, t_pos pos[26], int n)
 {
 	int	m;
 	int	top_r;
@@ -41,7 +41,7 @@ void	ft_read_coord(char **map, t_pos pos[26], int n)
 	}
 }
 
-void	ft_free_map(char ***map)
+static void	ft_free_map(char ***map)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ void	ft_free_map(char ***map)
 	}
 }
 
-char	**ft_read_from_file(char *file_name)
+static char	**ft_read_from_file(char *file_name)
 {
 	int		fd;
 	int		ret;

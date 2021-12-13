@@ -6,13 +6,13 @@
 /*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 05:24:30 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/13 13:19:12 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/13 13:43:40 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	ft_tetr_to_map(t_map *map, t_pos pos)
+static void	ft_tetr_to_map(t_map *map, t_pos pos)
 {
 	int	m;
 
@@ -25,7 +25,7 @@ void	ft_tetr_to_map(t_map *map, t_pos pos)
 	}
 }
 
-void	ft_delete_tetr(t_map *map, t_pos *pos)
+static void	ft_delete_tetr(t_map *map, t_pos *pos)
 {
 	int	m;
 
@@ -61,7 +61,7 @@ static	int	ft_check_pos(t_map map, t_pos *pos, int i, int j)
 	return (1);
 }
 
-int	place_tetris(t_map *map, t_pos *pos, int i, int j)
+static int	place_tetris(t_map *map, t_pos *pos, int i, int j)
 {
 	if (ft_check_pos(*map, pos, i, j) == 1)
 	{
@@ -77,8 +77,6 @@ int	change_map(t_map *map, t_pos pos[26], int tetr, int tetris)
 	int	y;
 
 	y = 0;
-	if (tetr == tetris)
-		return (1);
 	while (y < map->value)
 	{
 		x = 0;
@@ -95,5 +93,7 @@ int	change_map(t_map *map, t_pos pos[26], int tetr, int tetris)
 		}
 		y++;
 	}
+	if (tetr == tetris)
+		return (1);
 	return (0);
 }
