@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
+/*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/13 11:47:08 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/13 12:55:26 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int	error_check(int fd, int tetcount, int *error)
 		}
 		y++;
 	}
-	if ((y != 4 && y != 0) || tetcount > 26)
+	if ((y != 4 && y != 0) || tetcount >= 26)
 		*error = -1;
 	delete_data(block, y);
 	return (1);
@@ -114,12 +114,12 @@ int	error_handling(char *name)
 	if (fd == -1)
 	{
 		close(fd);
-		write(2, "ERROR : while opening a file", 28);
+		write(2, "error\n", 6);
 		return (-1);
 	}
 	error_check(fd, tetcount, &error);
 	if (error == -1)
-		write(2, "ERROR : while checking a file", 29);
+		write(2, "error\n", 6);
 	close(fd);
 	return (error);
 }
