@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+         #
+#    By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/13 13:45:23 by joivanau          #+#    #+#              #
-#    Updated: 2021/12/13 13:59:56 by joivanau         ###   ########.fr        #
+#    Updated: 2021/12/14 16:10:36 by joivanau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,7 @@ OBJ = $(SRC:.c=.o)
 CFLAGS = -c -Wall -Werror -Wextra
 NAME = fillit
 LIBFTPATH = libft/
-all: $(NAME)
-
-$(NAME):
+all:
 	@make -C $(LIBFTPATH)
 	@gcc $(CFLAGS) $(SRC) -I $(LIBFTPATH)
 	@gcc -o fillit $(OBJ) -L $(LIBFTPATH) -lft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 05:20:37 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/13 13:37:29 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:59:44 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_smallest_square(int num)
 	int	i;
 
 	count = num * 4;
-	i = 3;
+	i = 2;
 	while (count > i * i)
 		++i;
 	return (i);

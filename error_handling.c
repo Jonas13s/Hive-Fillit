@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:36:11 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/13 13:10:30 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:54:16 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int	error_check(int fd, int tetcount, int *error)
 		}
 		y++;
 	}
-	if (y != 4 || tetcount >= 26)
+	if (y != 4 || tetcount > 26)
 		*error = -1;
 	delete_data(block, y);
 	return (1);
@@ -114,12 +114,12 @@ int	error_handling(char *name)
 	if (fd == -1)
 	{
 		close(fd);
-		write(2, "error\n", 6);
+		write(1, "error\n", 6);
 		return (-1);
 	}
 	error_check(fd, tetcount, &error);
 	if (error == -1)
-		write(2, "error\n", 6);
+		write(1, "error\n", 6);
 	close(fd);
 	return (error);
 }

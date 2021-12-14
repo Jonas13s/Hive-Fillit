@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 05:19:36 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/13 19:54:18 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/14 16:00:31 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		write(2, "usage: ./fillit file_name\n", 26);
+		write(1, "usage: ./fillit file_name\n", 26);
 		return (1);
 	}
 	if (error_handling(argv[1]) == -1)

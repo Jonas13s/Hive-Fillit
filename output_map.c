@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joivanau <joivanau@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: joivanau <joivanau@hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 05:24:30 by joivanau          #+#    #+#             */
-/*   Updated: 2021/12/13 20:00:06 by joivanau         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:58:29 by joivanau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,36 +76,24 @@ int	change_map(t_map *map, t_pos pos[26], int tetr, int tetris)
 {
 	int	x;
 	int	y;
-	int static flag;
 
 	y = 0;
-	flag++;
-	if (tetr == tetris)
-		return (1);
 	while (y < map->value)
 	{
 		x = 0;
 		while (x < map->value && tetr < tetris)
 		{
-			if (place_tetris(map, &pos[tetr], x, y))
+			if (place_tetris(map, &pos[tetr], y, x))
 			{
-				/*if (tetr <= 0)
-				{
-					ft_print_map(*map);
-					printf("\n");
-				}*/
 				if (change_map(map, pos, tetr + 1, tetris))
 					return (1);
-				if (tetr <= 2)
-				{
-					ft_print_map(*map);
-					printf("\n");
-				}
 				ft_delete_tetr(map, &pos[tetr]);
 			}
 			x++;
 		}
 		y++;
 	}
+	if (tetr == tetris)
+		return (1);
 	return (0);
 }
